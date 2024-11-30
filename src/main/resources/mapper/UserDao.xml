@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace=".dao.UsersDao">
+
+    <resultMap type=".entity.Users" id="UsersMap">
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 批量导入用户信息 -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO users (user_id, username, password, email, created_at, updated_at, deleted)
+        VALUES
+        <foreach collection="users" item="user" separator=",">
+            (#{user.userId}, #{user.username}, #{user.password}, #{user.email}, #{user.createdAt}, #{user.updatedAt}, #{user.deleted})
+        </foreach>
+    </insert>
+
+    <!-- 根据用户ID查询用户信息 -->
+    <select id="selectById" resultMap="UsersMap">
+        SELECT user_id, username, password, email, created_at, updated_at, deleted
+        FROM users
+        WHERE user_id = #{userId}
+    </select>
+
+    <!-- 根据用户名查询用户信息 -->
+    <select id="selectByUsername" resultMap="UsersMap">
+        SELECT user_id, username, password, email, created_at, updated_at, deleted
+        FROM users
+        WHERE username = #{username}
+    </select>
+</mapper>
+
