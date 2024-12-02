@@ -13,22 +13,22 @@ public interface UserMapper {
     List<User> getAllUsers();
 
     // 获取指定用户的信息
-    User getUserById(@Param("id") Integer id);
+    User getUserById(@Param("userId") Integer userId);
 
     // 创建用户
-    void createUser(@Param("user") User user);
+    void createUser(User user);
 
     // 更新用户信息
-    void updateUser(@Param("id") Integer id, @Param("user") User user);
+    void updateUser(@Param("userId") Integer userId, User user);
 
     // 删除指定用户
-    void deleteUser(@Param("id") Integer id);
+    void deleteUser(@Param("userId") Integer userId);
 
     // 批量插入用户信息
-    void batchInsert(@Param("users") List<User> users);
+    void batchInsert(List<User> users);
 
     // 用户ID获取用户信息
-    User findById(@Param("id") String id);
+    User findById(@Param("userId") Integer userId);
 
     // 用户名获取用户信息
     User findByUsername(@Param("username") String username);

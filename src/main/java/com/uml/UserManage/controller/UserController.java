@@ -6,11 +6,15 @@ import com.uml.UserManage.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +65,7 @@ public class UserController {
         return updatedUser.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // 删除指定用户 TODO
+    // 删除指定用户
     @DeleteMapping("{id}")
     @CheckPermission("admin")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Integer id) {
@@ -82,14 +86,22 @@ public class UserController {
         return ResponseEntity.ok("导入成功");
     }
 
-    // 获取所有用户信息，导入到Excel表格中 TODO
+    // 获取所有用户信息，导入到Excel表格中
     @GetMapping("/export")
     @CheckPermission("admin")
-    public ResponseEntity<String> exportUsers() {
-        // 导出用户信息
-        userService.exportUsers();
+    public ResponseEntity<ByteArrayResource> exportUsers() {
+        try {
+            byte[] data = userService.exportUsers();
+            ByteArrayResource resource = new ByteArrayResource(data);
 
-        return ResponseEntity.ok("导出成功");
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=用户信息.xlsx")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .contentLength(data.length)
+                    .body(resource);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // 用户登录

@@ -2,14 +2,13 @@ package com.uml.UserManage.service;
 
 import com.uml.UserManage.dao.UserMapper;
 import com.uml.UserManage.entity.User;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,5 +107,41 @@ public class UserService {
             return user;
         }
         return null;
+    }
+
+    // 导出用户信息至Excel表格
+    public byte[] exportUsers() throws IOException {
+        List<User> users = getAllUsers(); // 获取所有用户信息
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Users");
+
+            // 创建表头
+            Row headerRow = sheet.createRow(0);
+            String[] columns = {"User ID", "Username", "Password", "Email", "Created At", "Updated At", "Deleted"};
+            for (int i = 0; i < columns.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(columns[i]);
+            }
+
+            // 填充数据
+            int rowNum = 1;
+            for (User user : users) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(user.getUserId());
+                row.createCell(1).setCellValue(user.getUsername());
+                row.createCell(2).setCellValue(user.getPassword());
+                row.createCell(3).setCellValue(user.getEmail());
+                row.createCell(4).setCellValue(user.getCreatedAt().toString());
+                row.createCell(5).setCellValue(user.getUpdatedAt().toString());
+                row.createCell(6).setCellValue(user.getDeleted());
+            }
+
+            // 将数据写入ByteArrayOutputStream
+            try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                workbook.write(out);
+                return out.toByteArray();
+            }
+        }
     }
 }

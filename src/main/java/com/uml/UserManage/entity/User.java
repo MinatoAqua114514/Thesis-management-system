@@ -1,7 +1,6 @@
 package com.uml.UserManage.entity;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +15,6 @@ import java.util.Date;
 @Getter
 @Table(name = "users")
 public class User {
-    @Id
     // 用户ID
     private Integer userId;
     // 用户名称

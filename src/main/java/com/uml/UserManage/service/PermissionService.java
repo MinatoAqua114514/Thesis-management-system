@@ -19,10 +19,12 @@ public class PermissionService {
     // 判断用户权限
     public boolean checkUserPermission(HttpServletRequest request, String requireRole) {
         // 从cookie中获取用户id
-        String userId = getUserIdFromCookie(request);
-        if (userId == null) {
+        String userIdStr = getUserIdFromCookie(request);
+
+        if (userIdStr == null) {
             return false;
         }
+        Integer userId = Integer.parseInt(userIdStr);
         User user = userMapper.findById(userId);
         return user != null && userRoleMapper.getRoleName(userId).equals(requireRole);
     }

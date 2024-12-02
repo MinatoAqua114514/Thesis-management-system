@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace=".dao.UsersDao">
+<mapper namespace="com.uml.UserManage.dao.UserMapper">
 
-    <resultMap type=".entity.Users" id="UsersMap">
+    <resultMap type=".entity.User" id="UsersMap">
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
@@ -12,40 +12,34 @@
         <result property="deleted" column="deleted" jdbcType="INTEGER"/>
     </resultMap>
 
-    <!-- 获取所有用户消息 -->
     <select id="getAllUsers" resultMap="UsersMap">
         SELECT user_id, username, password, email, created_at, updated_at, deleted
         FROM users
     </select>
 
-    <!-- 获取指定用户的信息 -->
     <select id="getUserById" resultMap="UsersMap">
         SELECT user_id, username, password, email, created_at, updated_at, deleted
         FROM users
         WHERE user_id = #{userId}
     </select>
 
-    <!-- 创建用户 -->
-    <insert id="createUser" parameterType="Users">
+    <insert id="createUser" parameterType="User">
         INSERT INTO users (username, password, email, created_at, updated_at, deleted)
         VALUES (#{username}, #{password}, #{email}, #{createdAt}, #{updatedAt}, #{deleted})
     </insert>
 
-    <!-- 更新用户信息 -->
-    <update id="updateUser" parameterType="Users">
+    <update id="updateUser" parameterType="User">
         UPDATE users
         SET username = #{username}, password = #{password}, email = #{email}, updated_at = #{updatedAt}, deleted = #{deleted}
         WHERE user_id = #{userId}
     </update>
 
-    <!-- 删除指定用户 -->
     <delete id="deleteUser" parameterType="int">
         UPDATE users
         set deleted = 1
         WHERE user_id = #{userId}
     </delete>
 
-    <!-- 批量导入用户信息 -->
     <insert id="batchInsert" parameterType="java.util.List">
         INSERT INTO users (user_id, username, password, email, created_at, updated_at, deleted)
         VALUES
@@ -54,18 +48,15 @@
         </foreach>
     </insert>
 
-    <!-- 根据用户ID查询用户信息 -->
     <select id="selectById" resultMap="UsersMap">
         SELECT user_id, username, password, email, created_at, updated_at, deleted
         FROM users
         WHERE user_id = #{userId}
     </select>
 
-    <!-- 根据用户名查询用户信息 -->
     <select id="selectByUsername" resultMap="UsersMap">
         SELECT user_id, username, password, email, created_at, updated_at, deleted
         FROM users
         WHERE username = #{username}
     </select>
 </mapper>
-

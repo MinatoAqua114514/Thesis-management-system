@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-@MapperScan("com.uml.*.dao")
+@MapperScan("com.uml.UserManage.dao")
 public class ThesisManagementSystemApplication {
 
     public static void main(String[] args) {
