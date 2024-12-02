@@ -13,12 +13,49 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    // 获取所有用户信息
+    public List<User> getAllUsers() {
+        return userMapper.getAllUsers();
+    }
+
+    // 获取指定用户的信息
+    public Optional<User> getUserById(Integer id) {
+        return Optional.ofNullable(userMapper.getUserById(id));
+    }
+
+    // 创建用户
+    public Optional<User> createUser(User user) {
+        userMapper.createUser(user);
+        return Optional.of(user);
+    }
+
+    // 更新用户信息
+    public Optional<User> updateUser(Integer id, User user) {
+        User oldUser = userMapper.getUserById(id);
+        if (oldUser == null) {
+            return Optional.empty();
+        }
+        userMapper.updateUser(id, user);
+        return Optional.of(user);
+    }
+
+    // 删除指定用户
+    public boolean deleteUser(Integer id) {
+        User user = userMapper.getUserById(id);
+        if (user == null) {
+            return false;
+        }
+        userMapper.deleteUser(id);
+        return true;
+    }
 
     // 批量导入用户信息
     public void importUsers(MultipartFile file) {
@@ -31,6 +68,7 @@ public class UserService {
         }
     }
 
+    // 解析Excel表格信息
     private List<User> parseFile(MultipartFile file) {
         List<User> users = new ArrayList<>();
         try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {

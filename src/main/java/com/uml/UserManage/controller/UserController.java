@@ -1,36 +1,95 @@
 package com.uml.UserManage.controller;
 
+import com.uml.UserManage.annotation.CheckPermission;
 import com.uml.UserManage.entity.User;
-import com.uml.UserManage.service.PermissionService;
 import com.uml.UserManage.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private PermissionService permissionService;
+    // 获取所有用户信息
+    @GetMapping
+    @CheckPermission("admin")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
 
-    // 导入用户信息Excel表信息
-    @PostMapping("/import")
-    public ResponseEntity<String> importUsers(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-        // 确认管理员权限
-        if (!permissionService.checkUserPermission(request, "admin")) {
-            return ResponseEntity.status(403).body("权限不足");
+    // 获取指定用户的信息
+    @GetMapping("{id}")
+    @CheckPermission("admin")
+    public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
+        // 获取用户信息，使用Optional包装，避免返回null
+        Optional<User> user = userService.getUserById(id);
+
+        // 返回用户信息，若用户不存在返回404
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // 创建用户
+    @PostMapping
+    @CheckPermission("admin")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        // 创建用户，使用Optional包装，避免返回null
+        Optional<User> createdUser = userService.createUser(user);
+
+        // 返回用户信息，若用户创建失败返回500
+        return createdUser.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
+
+    // 更新指定用户信息
+    @PutMapping("{id}")
+    @CheckPermission("admin")
+    public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User user) {
+        // 更新用户信息,使用Optional包装，避免返回null
+        Optional<User> updatedUser = userService.updateUser(id, user);
+
+        // 返回用户信息，若用户不存在返回404
+        return updatedUser.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // 删除指定用户 TODO
+    @DeleteMapping("{id}")
+    @CheckPermission("admin")
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") Integer id) {
+        if (userService.deleteUser(id)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
         }
+    }
 
+    // 解析Excel表，批量导入用户信息
+    @PostMapping("/import")
+    @CheckPermission("admin")
+    public ResponseEntity<String> importUsers(@RequestParam("file") MultipartFile file) {
+        // 导入用户信息
         userService.importUsers(file);
+
         return ResponseEntity.ok("导入成功");
+    }
+
+    // 获取所有用户信息，导入到Excel表格中 TODO
+    @GetMapping("/export")
+    @CheckPermission("admin")
+    public ResponseEntity<String> exportUsers() {
+        // 导出用户信息
+        userService.exportUsers();
+
+        return ResponseEntity.ok("导出成功");
     }
 
     // 用户登录
