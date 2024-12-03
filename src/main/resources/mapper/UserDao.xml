@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uml.UserManage.dao.UserMapper">
 
-    <resultMap type=".entity.User" id="UsersMap">
+    <resultMap type="com.uml.UserManage.entity.User" id="UsersMap">
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
@@ -24,13 +24,13 @@
     </select>
 
     <insert id="createUser" parameterType="User">
-        INSERT INTO users (username, password, email, created_at, updated_at, deleted)
-        VALUES (#{username}, #{password}, #{email}, #{createdAt}, #{updatedAt}, #{deleted})
+        INSERT INTO users (username, password, email, deleted)
+        VALUES (#{username}, #{password}, #{email}, #{deleted})
     </insert>
 
     <update id="updateUser" parameterType="User">
         UPDATE users
-        SET username = #{username}, password = #{password}, email = #{email}, updated_at = #{updatedAt}, deleted = #{deleted}
+        SET username = #{username}, password = #{password}, email = #{email}, deleted = #{deleted}
         WHERE user_id = #{userId}
     </update>
 
@@ -41,10 +41,10 @@
     </delete>
 
     <insert id="batchInsert" parameterType="java.util.List">
-        INSERT INTO users (user_id, username, password, email, created_at, updated_at, deleted)
+        INSERT INTO users (user_id, username, password, email, deleted)
         VALUES
         <foreach collection="users" item="user" separator=",">
-            (#{user.userId}, #{user.username}, #{user.password}, #{user.email}, #{user.createdAt}, #{user.updatedAt}, #{user.deleted})
+            (#{user.userId}, #{user.username}, #{user.password}, #{user.email}, #{user.deleted})
         </foreach>
     </insert>
 

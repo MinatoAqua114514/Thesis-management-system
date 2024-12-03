@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uml.UserManage.dao.UserRoleMapper">
 
-    <resultMap type="com.uml.UserManage.entity.UserRole" id="UserRolesMap">
+    <resultMap type="com.uml.UserManage.entity.UserRole" id="UserRoleMap">
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--通过用户id获取角色名-->
-    <select id="getRoleName" resultMap="UserRolesMap">
+    <select id="getRoleName" resultMap="UserRoleMap">
         select role_name from roles
         where role_id in
         (select role_id from user_roles where user_id = #{userId})

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uml.UserManage.dao.PermissionMapper">
+
+    <resultMap type="com.uml.UserManage.entity.Permission" id="PermissionMap">
+        <result property="permissionId" column="permission_id" jdbcType="INTEGER"/>
+        <result property="permissionName" column="permission_name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 添加权限 -->
+    <insert id="addPermission" parameterType="com.uml.UserManage.entity.Permission">
+        insert into permissions (permission_name, description)
+        values (#{permissionName}, #{description})
+    </insert>
+
+    <!-- 删除权限 -->
+    <delete id="deletePermission" parameterType="int">
+        delete from permissions
+        where permission_id = #{permissionId}
+    </delete>
+
+    <!-- 更新权限 -->
+    <update id="updatePermission" parameterType="com.uml.UserManage.entity.Permission">
+        update permissions
+        set permission_name = #{permissionName}, description = #{description}
+        where permission_id = #{permissionId}
+    </update>
+
+    <!-- 根据Id获取权限信息 -->
+    <select id="getPermissionById" resultMap="PermissionMap">
+        select permission_id, permission_name, description, created_at, updated_at
+        from permissions
+        where permission_id = #{permissionId}
+    </select>
+
+    <!-- 获取所有权限 -->
+    <select id="getAllPermissions" resultMap="PermissionMap">
+        select permission_id, permission_name, description, created_at, updated_at
+        from permissions
+    </select>
+</mapper>
+

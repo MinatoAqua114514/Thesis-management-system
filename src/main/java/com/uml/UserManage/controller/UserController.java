@@ -86,7 +86,7 @@ public class UserController {
         return ResponseEntity.ok("导入成功");
     }
 
-    // 获取所有用户信息，导入到Excel表格中
+    // 获取所有用户信息，导出到Excel表格中
     @GetMapping("/export")
     @CheckPermission("admin")
     public ResponseEntity<ByteArrayResource> exportUsers() {

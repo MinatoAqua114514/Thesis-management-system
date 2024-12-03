@@ -1,12 +1,16 @@
 package com.uml.UserManage.service;
 
+import com.uml.UserManage.dao.PermissionMapper;
 import com.uml.UserManage.dao.UserMapper;
 import com.uml.UserManage.dao.UserRoleMapper;
+import com.uml.UserManage.entity.Permission;
 import com.uml.UserManage.entity.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PermissionService {
@@ -15,6 +19,8 @@ public class PermissionService {
     private UserMapper userMapper;
     @Autowired
     private UserRoleMapper userRoleMapper;
+    @Autowired
+    private PermissionMapper permissionMapper;
 
     // 判断用户权限
     public boolean checkUserPermission(HttpServletRequest request, String requireRole) {
@@ -40,5 +46,30 @@ public class PermissionService {
             }
         }
         return null;
+    }
+
+    // 添加权限
+    public void addPermission(String permissionName, String description) {
+        permissionMapper.addPermission(permissionName, description);
+    }
+
+    // 删除权限
+    public void deletePermission(Integer permissionId) {
+        permissionMapper.deletePermission(permissionId);
+    }
+
+    // 更新权限
+    public void updatePermission(Integer permissionId, String permissionName, String description) {
+        permissionMapper.updatePermission(permissionId, permissionName, description);
+    }
+
+    // 根据Id获取权限
+    public Permission getPermissionById(Integer permissionId) {
+        return permissionMapper.getPermissionById(permissionId);
+    }
+
+    // 获取所有权限
+    public List<Permission> getAllPermissions() {
+        return permissionMapper.getAllPermissions();
     }
 }
