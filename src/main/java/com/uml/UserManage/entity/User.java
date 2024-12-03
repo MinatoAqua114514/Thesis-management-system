@@ -1,19 +1,12 @@
 package com.uml.UserManage.entity;
 
-import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-/**
- * (Users)实体类
- *
- * @author makejava
- * @since 2024-11-30 22:26:34
- */
+
 @Setter
 @Getter
-@Table(name = "users")
 public class User {
     // 用户ID
     private Integer userId;
