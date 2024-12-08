@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uml.UserManage.dao.PanelMapper">
+
+    <resultMap type="com.uml.UserManage.entity.DefensePanelMember" id="DefensePanelMap">
+        <result property="panelMemberId" column="panel_member_id" jdbcType="INTEGER"/>
+        <result property="teacherId" column="teacher_id" jdbcType="INTEGER"/>
+        <result property="defensePanelId" column="defense_panel_id" jdbcType="INTEGER"/>
+        <result property="role" column="role" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 为评阅老师分配评阅小组 -->
+    <insert id="insertPanelMember" parameterType="com.uml.UserManage.entity.DefensePanelMember">
+        INSERT INTO defense_panel_members (teacher_id, defense_panel_id, role)
+        VALUES (#{teacherId}, #{defensePanelId}, #{role})
+    </insert>
+
+    <!-- 获取评阅小组所有成员信息 -->
+    <select id="getPanelMembers" resultMap="DefensePanelMap">
+        SELECT panel_member_id, teacher_id, defense_panel_id, role, created_at, updated_at
+        FROM defense_panel_members
+        WHERE defense_panel_id = #{defensePanelId}
+    </select>
+
+    <!-- 获取评阅小组指定成员信息 -->
+    <select id="getPanelMember" resultMap="DefensePanelMap">
+        SELECT panel_member_id, teacher_id, defense_panel_id, role, created_at, updated_at
+        FROM defense_panel_members
+        WHERE panel_member_id = #{panelMemberId}
+    </select>
+
+    <!-- 删除评阅小组成员 -->
+    <delete id="deletePanelMember">
+        DELETE FROM defense_panel_members
+        WHERE panel_member_id = #{panelMemberId}
+    </delete>
+
+    <!-- 更新小组成员信息 -->
+    <update id="updatePanelMember" parameterType="com.uml.UserManage.entity.DefensePanelMember">
+        UPDATE defense_panel_members
+        SET teacher_id = #{teacherId}, role = #{role}
+        WHERE panel_member_id = #{panelMemberId}
+    </update>
+</mapper>

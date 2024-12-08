@@ -1,10 +1,8 @@
 package com.uml.UserManage.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 public class RolePermission {
     // 角色id
     private Integer roleId;

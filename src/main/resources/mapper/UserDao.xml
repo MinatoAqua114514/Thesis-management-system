@@ -48,12 +48,6 @@
         </foreach>
     </insert>
 
-    <select id="selectById" resultMap="UsersMap">
-        SELECT user_id, username, password, email, created_at, updated_at, deleted
-        FROM users
-        WHERE user_id = #{userId}
-    </select>
-
     <select id="selectByUsername" resultMap="UsersMap">
         SELECT user_id, username, password, email, created_at, updated_at, deleted
         FROM users

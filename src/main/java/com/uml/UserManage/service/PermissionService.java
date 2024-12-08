@@ -31,7 +31,7 @@ public class PermissionService {
             return false;
         }
         Integer userId = Integer.parseInt(userIdStr);
-        User user = userMapper.findById(userId);
+        User user = userMapper.getUserById(userId);
         return user != null && userRoleMapper.getRoleName(userId).equals(requireRole);
     }
 

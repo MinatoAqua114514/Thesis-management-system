@@ -27,9 +27,6 @@ public interface UserMapper {
     // 批量插入用户信息
     void batchInsert(List<User> users);
 
-    // 用户ID获取用户信息
-    User findById(@Param("userId") Integer userId);
-
     // 用户名获取用户信息
-    User findByUsername(@Param("username") String username);
+    User selectByUsername(@Param("username") String username);
 }

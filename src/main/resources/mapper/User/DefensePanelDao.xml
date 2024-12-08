@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uml.UserManage.dao.PanelMapper">
+
+    <resultMap type="com.uml.UserManage.entity.DefensePanel" id="DefensePanelMap">
+        <result property="defensePanelId" column="defense_panel_id" jdbcType="INTEGER"/>
+        <result property="panelLeaderId" column="panel_leader_id" jdbcType="VARCHAR"/>
+        <result property="panelName" column="panel_name" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 添加评阅小组 -->
+    <insert id="addDefensePanel" parameterType="com.uml.UserManage.entity.DefensePanel">
+        insert into defense_panels (panel_leader_id, panel_name)
+        values (#{panelLeaderId}, #{panelName})
+    </insert>
+
+    <!-- 获取指定评阅小组信息 -->
+    <select id="getDefensePanelById" resultMap="DefensePanelMap">
+        select defense_panel_id, panel_leader_id, panel_name, created_at, updated_at
+        from defense_panels
+        where defense_panel_id = #{defensePanelId}
+    </select>
+
+    <!-- 获取所有评阅小组信息 -->
+    <select id="getAllDefensePanels" resultMap="DefensePanelMap">
+        select defense_panel_id, panel_leader_id, panel_name, created_at, updated_at
+        from defense_panels
+    </select>
+
+    <!-- 删除评阅小组 -->
+    <delete id="deleteDefensePanel" parameterType="int">
+        delete from defense_panels
+        where defense_panel_id = #{defensePanelId}
+    </delete>
+
+    <!-- 更新评阅小组信息 -->
+    <update id="updateDefensePanel" parameterType="com.uml.UserManage.entity.DefensePanel">
+        update defense_panels
+        set panel_leader_id = #{panelLeaderId}, panel_name = #{panelName}
+        where defense_panel_id = #{defensePanelId}
+    </update>
+</mapper>

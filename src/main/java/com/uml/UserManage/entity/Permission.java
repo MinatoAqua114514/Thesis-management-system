@@ -1,12 +1,10 @@
 package com.uml.UserManage.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
-@Getter
-@Setter
+@Data
 public class Permission {
     // 权限id
     private Integer permissionId;
@@ -15,7 +13,7 @@ public class Permission {
     // 权限描述
     private String description;
     // 创建时间
-    private Timestamp createAt;
+    private Date createAt;
     // 更新时间
-    private Timestamp updateAt;
+    private Date updateAt;
 }

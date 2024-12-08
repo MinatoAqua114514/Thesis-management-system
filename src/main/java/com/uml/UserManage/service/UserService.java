@@ -107,7 +107,7 @@ public class UserService {
 
     // 验证用户名和密码
     public User validateUser(String username, String password) {
-        User user = userMapper.findByUsername(username);
+        User user = userMapper.selectByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
             return user;
         }
