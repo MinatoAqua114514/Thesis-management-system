@@ -17,6 +17,13 @@
         WHERE advisor_id = #{advisorId}
     </select>
 
+    <!-- 获取学生及其指导老师 -->
+    <select id="getStudentMentor" resultMap="MentorStudentMap">
+        SELECT advisor_id, student_id, created_at, updated_at
+        FROM advisor_students
+        WHERE student_id = #{studentId}
+    </select>
+
     <!-- 为指导老师分配学生 -->
     <insert id="insertMentorStudent" parameterType="com.uml.UserManage.entity.MentorStudent">
         INSERT INTO advisor_students(advisor_id, student_id)

@@ -1,8 +1,8 @@
 package com.uml.UserManage.dao;
 
-import com.uml.UserManage.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import com.uml.UserManage.entity.User;
 
 import java.util.List;
 

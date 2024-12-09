@@ -13,10 +13,17 @@ public class MentorController {
     private MentorService mentorService;
 
     // 获取指导老师及其学生
-    @GetMapping
+    @GetMapping("{advisorId}")
     @CheckPermission("admin")
-    public void getMentorStudent() {
-        mentorService.getMentorStudent();
+    public void getMentorStudent(@PathVariable("advisorId") Integer advisorId) {
+        mentorService.getMentorStudent(advisorId);
+    }
+
+    // 获取学生及其指导老师
+    @GetMapping("{studentId}")
+    @CheckPermission("admin")
+    public void getStudentMentor(@PathVariable("studentId") Integer studentId) {
+        mentorService.getStudentMentor(studentId);
     }
 
     // 为指导老师分配学生
