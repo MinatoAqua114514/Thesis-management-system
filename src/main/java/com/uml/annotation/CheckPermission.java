@@ -1,4 +1,4 @@
-package com.uml.UserManage.annotation;
+package com.uml.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

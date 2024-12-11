@@ -1,7 +1,7 @@
-package com.uml.UserManage.aspect;
+package com.uml.aspect;
 
 import com.uml.UserManage.service.PermissionService;
-import com.uml.UserManage.annotation.CheckPermission;
+import com.uml.annotation.CheckPermission;
 import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

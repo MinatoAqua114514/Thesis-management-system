@@ -1,4 +1,4 @@
-package com.uml.ThesisManage.exception;
+package com.uml.exception;
 
 public class CustomException extends RuntimeException {
     public CustomException(String message) {

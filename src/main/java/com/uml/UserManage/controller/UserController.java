@@ -1,6 +1,6 @@
 package com.uml.UserManage.controller;
 
-import com.uml.UserManage.annotation.CheckPermission;
+import com.uml.annotation.CheckPermission;
 import com.uml.UserManage.entity.User;
 import com.uml.UserManage.service.UserService;
 import jakarta.servlet.http.Cookie;

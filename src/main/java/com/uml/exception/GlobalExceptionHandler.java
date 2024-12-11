@@ -1,4 +1,4 @@
-package com.uml.ThesisManage.exception;
+package com.uml.exception;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;

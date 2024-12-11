@@ -1,6 +1,6 @@
 package com.uml.UserManage.controller;
 
-import com.uml.UserManage.annotation.CheckPermission;
+import com.uml.annotation.CheckPermission;
 import com.uml.UserManage.entity.DefensePanelMember;
 import com.uml.UserManage.service.PanelService;
 import org.springframework.beans.factory.annotation.Autowired;
