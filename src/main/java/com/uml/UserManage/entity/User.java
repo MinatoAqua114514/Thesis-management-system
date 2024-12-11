@@ -1,24 +1,33 @@
 package com.uml.UserManage.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
+@Schema(name = "User", description = "用户实体类")
 public class User {
-    // 用户ID
+
+    @Schema(name = "userId", description = "用户ID")
     private Integer userId;
-    // 用户名称
+
+    @Schema(name = "username", description = "用户名")
     private String username;
-    // 用户密码
+
+    @Schema(name = "password", description = "密码")
     private String password;
-    // 用户邮箱
+
+    @Schema(name = "email", description = "邮箱")
     private String email;
-    // 用户创建时间
+
+    @Schema(name = "createdAt", description = "创建时间")
     private Date createdAt;
-    // 用户更新时间
+
+    @Schema(name = "updatedAt", description = "更新时间")
     private Date updatedAt;
-    // 用户删除标记
+
+    @Schema(name = "deleted", description = "删除标记")
     private Integer deleted;
 }
 

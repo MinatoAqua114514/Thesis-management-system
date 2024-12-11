@@ -2,23 +2,25 @@ package com.uml.ThesisManage.controller;
 
 import com.uml.ThesisManage.entity.Interim;
 import com.uml.ThesisManage.service.InterimService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/interim")
-//@Api(tags = "中期报告管理")
+@Tag(name = "Interim", description = "中期报告相关接口")
 public class InterimController {
 
     private static final Logger log = LoggerFactory.getLogger(InterimController.class);
@@ -27,7 +29,11 @@ public class InterimController {
     private InterimService interimService;
 
     @GetMapping
-//    @ApiOperation(value = "获取所有中期报告")
+    @Operation(summary = "获取中期报告列表")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "获取中期报告列表成功"),
+        @ApiResponse(responseCode = "500", description = "获取中期报告列表失败")
+    })
     public ResponseEntity<Map<String, Object>> getInterimList() {
         Map<String, Object> response = new HashMap<>();
         try {
@@ -38,6 +44,117 @@ public class InterimController {
         } catch (Exception e) {
             log.error("Error fetching interim list", e);
             throw new RuntimeException("Failed to fetch interim list", e);
+        }
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "通过ID获取中期报告")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "获取中期报告成功"),
+        @ApiResponse(responseCode = "404", description = "中期报告不存在"),
+        @ApiResponse(responseCode = "500", description = "获取中期报告失败")
+    })
+    public ResponseEntity<Map<String, Object>> getInterimById(
+            @Parameter(name = "id",description = "中期报告ID",required = true) @PathVariable("id") int id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Optional<Interim> interim = interimService.getInterimById(id);
+            if (interim.isPresent()) {
+                response.put("status", "success");
+                response.put("data", interim.get());
+                return ResponseEntity.ok(response);
+            } else {
+                log.error("Interim report not found");
+                response.put("status", "error");
+                response.put("message", "Interim report not found");
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            log.error("Error fetching interim report", e);
+            throw new RuntimeException("Failed to fetch interim report", e);
+        }
+    }
+
+    @PutMapping
+    @Operation(summary = "提交中期报告")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "提交中期报告成功"),
+        @ApiResponse(responseCode = "500", description = "提交中期报告失败")
+    })
+    public ResponseEntity<Map<String, Object>> submitInterim(
+            @Parameter(name = "interim",description = "中期报告",required = true) @RequestBody Interim interim) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Optional<Interim> submittedInterim = interimService.submitInterim(interim);
+            if (submittedInterim.isPresent()) {
+                response.put("status", "success");
+                response.put("data", submittedInterim.get());
+                return ResponseEntity.ok(response);
+            } else {
+                log.error("Failed to submit interim report");
+                response.put("status", "error");
+                response.put("message", "Failed to submit interim report");
+                return ResponseEntity.internalServerError().body(response);
+            }
+        } catch (Exception e) {
+            log.error("Error submitting interim report", e);
+            throw new RuntimeException("Failed to submit interim report", e);
+        }
+    }
+
+    @PostMapping
+    @Operation(summary = "修改中期报告")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "修改中期报告成功"),
+        @ApiResponse(responseCode = "404", description = "中期报告不存在"),
+        @ApiResponse(responseCode = "500", description = "修改中期报告失败")
+    })
+    public ResponseEntity<Map<String, Object>> updateInterim(
+            @Parameter(name = "interim",description = "中期报告",required = true) @RequestBody Interim interim) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Optional<Interim> updatedInterim = interimService.updateInterim(interim);
+            if (updatedInterim.isPresent()) {
+                response.put("status", "success");
+                response.put("data", updatedInterim.get());
+                return ResponseEntity.ok(response);
+            } else {
+                log.error("Failed to update interim report, interim not found");
+                response.put("status", "error");
+                response.put("message", "Failed to update interim report, interim not found");
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            log.error("Error updating interim report", e);
+            throw new RuntimeException("Failed to update interim report", e);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "删除中期报告")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "删除中期报告成功"),
+        @ApiResponse(responseCode = "404", description = "中期报告不存在"),
+        @ApiResponse(responseCode = "500", description = "删除中期报告失败")
+    })
+    public ResponseEntity<Map<String, Object>> deleteInterim(
+            @Parameter(name = "id",description = "中期报告ID",required = true) @PathVariable("id") int id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            boolean deleted = interimService.deleteInterim(id);
+            if (deleted) {
+                response.put("status", "success");
+                response.put("message", "Interim report deleted successfully");
+                return ResponseEntity.ok(response);
+            } else {
+                log.error("Failed to delete interim report, interim not found");
+                response.put("status", "error");
+                response.put("message", "Failed to delete interim report, interim not found");
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            log.error("Error deleting interim report", e);
+            throw new RuntimeException("Failed to delete interim report", e);
         }
     }
 }

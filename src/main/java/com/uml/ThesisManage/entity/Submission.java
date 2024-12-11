@@ -1,33 +1,44 @@
 package com.uml.ThesisManage.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
+@Schema(name = "Submission", description = "选题申报实体类")
 public class Submission {
-    // 选题申报ID
+
+    @Schema(name = "topicId", description = "选题申报ID")
     private int topicId;
-    // 选题申报学生ID
+
+    @Schema(name = "studentId", description = "选题申报学生ID")
     private int studentId;
-    // 选题申报指导教师ID
+
+    @Schema(name = "advisorId", description = "选题申报指导教师ID")
     private int advisorId;
-    // 选题申报名称
+
+    @Schema(name = "topicName", description = "选题申报名称")
     private String topicName;
-    // 选题申报文件ID
+
+    @Schema(name = "submissionFileId", description = "选题申报文件ID")
     private int submissionFileId;
-    // 选题申报状态
+
+    @Schema(name = "status", description = "选题申报状态")
     private String status;
-    // 选题申报时间
+
+    @Schema(name = "submittedAt", description = "选题申报时间")
     private Date submittedAt;
-    // 选题申报更新时间
+
+    @Schema(name = "updatedAt", description = "选题申报更新时间")
     private Date updatedAt;
-    // 专业负责人指导意见
+
+    @Schema(name = "professionalLeaderFeedback", description = "专业负责人指导意见")
     private String professionalLeaderFeedback;
-    // 院领导指导意见
+
+    @Schema(name = "hospitalLeaderFeedback", description = "院领导指导意见")
     private String hospitalLeaderFeedback;
-    // 删除标记
+
+    @Schema(name = "deleted", description = "删除标记")
     private int deleted;
 }
