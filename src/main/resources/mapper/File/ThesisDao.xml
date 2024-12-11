@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uml.ThesisManage.dao.ThesisMapper">
+
+    <resultMap type="com.uml.ThesisManage.entity.Thesis" id="ThesisMap">
+        <result property="thesisId" column="thesis_id" jdbcType="INTEGER"/>
+        <result property="thesisTitle" column="thesis_title" jdbcType="VARCHAR"/>
+        <result property="studentId" column="student_id" jdbcType="INTEGER"/>
+        <result property="advisorId" column="advisor_id" jdbcType="INTEGER"/>
+        <result property="interimReportId" column="interim_report_id" jdbcType="INTEGER"/>
+        <result property="thesisFileId" column="thesis_file_id" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="submittedAt" column="submitted_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+    </resultMap>
+</mapper>

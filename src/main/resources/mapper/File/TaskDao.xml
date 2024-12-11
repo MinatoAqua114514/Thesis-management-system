@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uml.ThesisManage.dao.TaskMapper">
+
+    <resultMap type="com.uml.ThesisManage.entity.Task" id="TaskMap">
+        <result property="taskId" column="task_id" jdbcType="INTEGER"/>
+        <result property="topicId" column="topic_id" jdbcType="INTEGER"/>
+        <result property="studentId" column="student_id" jdbcType="INTEGER"/>
+        <result property="advisorId" column="advisor_id" jdbcType="INTEGER"/>
+        <result property="taskFileId" column="task_file_id" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="submittedAt" column="submitted_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <result property="professionalLeaderFeedback" column="professional_leader_feedback" jdbcType="VARCHAR"/>
+        <result property="hospitalLeaderFeedback" column="hospital_leader_feedback" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+    </resultMap>
+</mapper>
