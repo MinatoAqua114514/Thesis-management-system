@@ -15,4 +15,38 @@
         <result property="professionalLeaderFeedback" column="professional_leader_feedback" jdbcType="VARCHAR"/>
         <result property="deleted" column="deleted" jdbcType="TINYINT"/>
     </resultMap>
+
+    <!-- 获取开题报告列表 -->
+    <select id="getProposalList" resultMap="ProposalMap">
+        SELECT proposal_id, task_id, student_id, advisor_id, proposal_file_id, status, submitted_at, updated_at, advisor_feedback, professional_leader_feedback, deleted
+        FROM proposal_reports
+        WHERE deleted = 0
+    </select>
+
+    <!-- 通过ID查找获取开题报告 -->
+    <select id="getProposalById" resultMap="ProposalMap">
+        SELECT proposal_id, task_id, student_id, advisor_id, proposal_file_id, status, submitted_at, updated_at, advisor_feedback, professional_leader_feedback, deleted
+        FROM proposal_reports
+        WHERE proposal_id = #{proposalId}
+    </select>
+
+    <!-- 提交开题报告 -->
+    <insert id="submitProposal" parameterType="com.uml.ThesisManage.entity.Proposal">
+        INSERT INTO proposal_reports (task_id, student_id, advisor_id, proposal_file_id, status, submitted_at, updated_at, advisor_feedback, professional_leader_feedback, deleted)
+        VALUES (#{taskId}, #{studentId}, #{advisorId}, #{proposalFileId}, #{status}, #{submittedAt}, #{updatedAt}, #{advisorFeedback}, #{professionalLeaderFeedback}, #{deleted})
+    </insert>
+
+    <!-- 修改开题报告 -->
+    <update id="updateProposal" parameterType="com.uml.ThesisManage.entity.Proposal">
+        UPDATE proposal_reports
+        SET task_id = #{taskId}, student_id = #{studentId}, advisor_id = #{advisorId}, proposal_file_id = #{proposalFileId}, status = #{status}, submitted_at = #{submittedAt}, updated_at = #{updatedAt}, advisor_feedback = #{advisorFeedback}, professional_leader_feedback = #{professionalLeaderFeedback}, deleted = #{deleted}
+        WHERE proposal_id = #{proposalId}
+    </update>
+
+    <!-- 删除开题报告 -->
+    <update id="deleteProposal" parameterType="com.uml.ThesisManage.entity.Proposal">
+        UPDATE proposal_reports
+        SET deleted = 1
+        WHERE proposal_id = #{proposalId}
+    </update>
 </mapper>

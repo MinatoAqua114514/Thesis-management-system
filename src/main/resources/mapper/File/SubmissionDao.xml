@@ -23,7 +23,7 @@
         WHERE deleted = 0
     </select>
 
-    <!-- 获取指定选题申报 -->
+    <!-- 通过ID查找获取选题申报 -->
     <select id="getSubmissionById" resultMap="SubmissionMap">
         SELECT topic_id, student_id, advisor_id, topic_name, submission_file_id, status, submitted_at, updated_at, professional_leader_feedback, hospital_leader_feedback, deleted
         FROM topic_submissions
@@ -31,20 +31,20 @@
     </select>
 
     <!-- 提交选题申报 -->
-    <insert id="submitTopicSubmission" parameterType="com.uml.ThesisManage.entity.Submission">
+    <insert id="submitSubmission" parameterType="com.uml.ThesisManage.entity.Submission">
         INSERT INTO topic_submissions (topic_id, student_id, advisor_id, topic_name, submission_file_id, status, professional_leader_feedback, hospital_leader_feedback)
         VALUES (#{topicId}, #{studentId}, #{advisorId}, #{topicName}, #{submissionFileId}, #{status}, #{professionalLeaderFeedback}, #{hospitalLeaderFeedback})
     </insert>
 
-    <!-- 更新选题申报表 -->
-    <update id="updateTopicSubmission" parameterType="com.uml.ThesisManage.entity.Submission">
+    <!-- 更新选题申报 -->
+    <update id="updateSubmission" parameterType="com.uml.ThesisManage.entity.Submission">
         UPDATE topic_submissions
         SET topic_name = #{topicName}, status = #{status}, professional_leader_feedback = #{professionalLeaderFeedback}, hospital_leader_feedback = #{hospitalLeaderFeedback}
         WHERE topic_id = #{topicId}
     </update>
 
     <!-- 删除选题申报 -->
-    <update id="deleteTopicSubmission" parameterType="int">
+    <update id="deleteSubmission" parameterType="int">
         UPDATE topic_submissions
         SET deleted = 1
         WHERE topic_id = #{topicId}

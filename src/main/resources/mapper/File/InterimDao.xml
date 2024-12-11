@@ -13,4 +13,38 @@
         <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
         <result property="deleted" column="deleted" jdbcType="TINYINT"/>
     </resultMap>
+
+    <!-- 获取中期报告列表 -->
+    <select id="getInterimList" resultMap="InterimMap">
+        SELECT interim_report_id, proposal_id, student_id, advisor_id, interim_report_file_id, status, submitted_at, updated_at, deleted
+        FROM interim_reports
+        WHERE deleted = 0
+    </select>
+
+    <!-- 通过ID查找获取中期报告 -->
+    <select id="getInterimById" resultMap="InterimMap">
+        SELECT interim_report_id, proposal_id, student_id, advisor_id, interim_report_file_id, status, submitted_at, updated_at, deleted
+        FROM interim_reports
+        WHERE interim_report_id = #{interimReportId}
+    </select>
+
+    <!-- 提交中期报告 -->
+    <insert id="submitInterim" parameterType="com.uml.ThesisManage.entity.Interim">
+        INSERT INTO interim_reports (proposal_id, student_id, advisor_id, interim_report_file_id, status, submitted_at, updated_at, deleted)
+        VALUES (#{proposalId}, #{studentId}, #{advisorId}, #{interimReportFileId}, #{status}, #{submittedAt}, #{updatedAt}, #{deleted})
+    </insert>
+
+    <!-- 修改中期报告 -->
+    <update id="updateInterim" parameterType="com.uml.ThesisManage.entity.Interim">
+        UPDATE interim_reports
+        SET proposal_id = #{proposalId}, student_id = #{studentId}, advisor_id = #{advisorId}, interim_report_file_id = #{interimReportFileId}, status = #{status}, submitted_at = #{submittedAt}, updated_at = #{updatedAt}, deleted = #{deleted}
+        WHERE interim_report_id = #{interimReportId}
+    </update>
+
+    <!-- 删除中期报告 -->
+    <update id="deleteInterim" parameterType="com.uml.ThesisManage.entity.Interim">
+        UPDATE interim_reports
+        SET deleted = 1
+        WHERE interim_report_id = #{interimReportId}
+    </update>
 </mapper>

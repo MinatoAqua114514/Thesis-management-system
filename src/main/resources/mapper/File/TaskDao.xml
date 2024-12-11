@@ -15,4 +15,38 @@
         <result property="hospitalLeaderFeedback" column="hospital_leader_feedback" jdbcType="VARCHAR"/>
         <result property="deleted" column="deleted" jdbcType="TINYINT"/>
     </resultMap>
+
+    <!-- 获取任务书列表 -->
+    <select id="getTaskList" resultMap="TaskMap">
+        SELECT task_id, topic_id, student_id, advisor_id, task_file_id, status, submitted_at, updated_at, professional_leader_feedback, hospital_leader_feedback, deleted
+        FROM topic_tasks
+        WHERE deleted = 0
+    </select>
+
+    <!-- 通过ID查找获取任务书 -->
+    <select id="getTaskById" resultMap="TaskMap">
+        SELECT task_id, topic_id, student_id, advisor_id, task_file_id, status, submitted_at, updated_at, professional_leader_feedback, hospital_leader_feedback, deleted
+        FROM topic_tasks
+        WHERE task_id = #{taskId}
+    </select>
+
+    <!-- 提交任务书 -->
+    <insert id="submitTask" parameterType="com.uml.ThesisManage.entity.Task">
+        INSERT INTO topic_tasks (topic_id, student_id, advisor_id, task_file_id, status, professional_leader_feedback, hospital_leader_feedback)
+        VALUES (#{topicId}, #{studentId}, #{advisorId}, #{taskFileId}, #{status}, #{professionalLeaderFeedback}, #{hospitalLeaderFeedback})
+    </insert>
+
+    <!-- 更新任务书 -->
+    <update id="updateTask" parameterType="com.uml.ThesisManage.entity.Task">
+        UPDATE topic_tasks
+        SET status = #{status}, professional_leader_feedback = #{professionalLeaderFeedback}, hospital_leader_feedback = #{hospitalLeaderFeedback}
+        WHERE task_id = #{taskId}
+    </update>
+
+    <!-- 删除任务书 -->
+    <update id="deleteTask" parameterType="int">
+        UPDATE topic_tasks
+        SET deleted = 1
+        WHERE task_id = #{taskId}
+    </update>
 </mapper>

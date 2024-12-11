@@ -14,4 +14,38 @@
         <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
         <result property="deleted" column="deleted" jdbcType="TINYINT"/>
     </resultMap>
+
+    <!-- 获取论文列表 -->
+    <select id="getThesisList" resultMap="ThesisMap">
+        SELECT thesis_id, thesis_title, student_id, advisor_id, interim_report_id, thesis_file_id, status, submitted_at, updated_at, deleted
+        FROM theses
+        WHERE deleted = 0
+    </select>
+
+    <!-- 通过ID查找获取论文 -->
+    <select id="getThesisById" resultMap="ThesisMap">
+        SELECT thesis_id, thesis_title, student_id, advisor_id, interim_report_id, thesis_file_id, status, submitted_at, updated_at, deleted
+        FROM theses
+        WHERE thesis_id = #{thesisId}
+    </select>
+
+    <!-- 提交论文 -->
+    <insert id="submitThesis" parameterType="com.uml.ThesisManage.entity.Thesis">
+        INSERT INTO theses (thesis_title, student_id, advisor_id, interim_report_id, thesis_file_id, status)
+        VALUES (#{thesisTitle}, #{studentId}, #{advisorId}, #{interimReportId}, #{thesisFileId}, #{status})
+    </insert>
+
+    <!-- 更新论文 -->
+    <update id="updateThesis" parameterType="com.uml.ThesisManage.entity.Thesis">
+        UPDATE theses
+        SET thesis_title = #{thesisTitle}, status = #{status}
+        WHERE thesis_id = #{thesisId}
+    </update>
+
+    <!-- 删除论文 -->
+    <update id="deleteThesis" parameterType="int">
+        UPDATE theses
+        SET deleted = 1
+        WHERE thesis_id = #{thesisId}
+    </update>
 </mapper>
