@@ -23,19 +23,4 @@ public interface PanelMapper {
 
     // 更细小组成员信息
     boolean updatePanelMember(@Param("panelMemberId") Integer panelMemberId,DefensePanelMember defensePanelMember);
-
-    // 添加评阅小组
-    void addDefensePanel(DefensePanelMember defensePanelMember);
-
-    // 获取指定评阅小组信息
-    DefensePanelMember getDefensePanelById(Integer defensePanelId);
-
-    // 获取所有评阅小组信息
-    List<DefensePanelMember> getAllDefensePanels();
-
-    // 删除指定评阅小组
-    void deleteDefensePanel(Integer defensePanelId);
-
-    // 更新评阅小组信息
-    void updateDefensePanel(Integer defensePanelId, DefensePanelMember defensePanelMember);
 }
