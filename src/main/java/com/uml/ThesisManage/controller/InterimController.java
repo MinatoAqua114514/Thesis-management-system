@@ -76,14 +76,28 @@ public class InterimController {
     }
 
     @PutMapping
-    @Operation(summary = "提交中期报告")
+    @Operation(summary = "学生提交中期报告")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "提交中期报告成功"),
         @ApiResponse(responseCode = "500", description = "提交中期报告失败")
     })
     public ResponseEntity<Map<String, Object>> submitInterim(
-            @Parameter(name = "interim",description = "中期报告",required = true) @RequestBody Interim interim) {
+            @CookieValue(value = "userId", defaultValue = "0") int userId,
+            @Parameter(name = "interimReportFileId",description = "中期报告文件ID",required = true) @RequestParam("interimReportFileId") int interimReportFileId){
         Map<String, Object> response = new HashMap<>();
+        Interim interim = new Interim();
+        // 处理Cookie异常
+        if (userId == 0) {
+            log.error("User ID not found in cookies");
+            response.put("status", "error");
+            response.put("message", "User ID not found in cookies");
+            return ResponseEntity.badRequest().body(response);
+        } else {
+            interim.setStudentId(userId);
+        }
+        // TODO 通过指导老师学生表获取指导老师的userId
+        interim.setInterimReportFileId(interimReportFileId);
+        interim.setStatus("pending");
         try {
             Optional<Interim> submittedInterim = interimService.submitInterim(interim);
             if (submittedInterim.isPresent()) {
@@ -99,34 +113,6 @@ public class InterimController {
         } catch (Exception e) {
             log.error("Error submitting interim report", e);
             throw new RuntimeException("Failed to submit interim report", e);
-        }
-    }
-
-    @PostMapping
-    @Operation(summary = "修改中期报告")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "修改中期报告成功"),
-        @ApiResponse(responseCode = "404", description = "中期报告不存在"),
-        @ApiResponse(responseCode = "500", description = "修改中期报告失败")
-    })
-    public ResponseEntity<Map<String, Object>> updateInterim(
-            @Parameter(name = "interim",description = "中期报告",required = true) @RequestBody Interim interim) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Optional<Interim> updatedInterim = interimService.updateInterim(interim);
-            if (updatedInterim.isPresent()) {
-                response.put("status", "success");
-                response.put("data", updatedInterim.get());
-                return ResponseEntity.ok(response);
-            } else {
-                log.error("Failed to update interim report, interim not found");
-                response.put("status", "error");
-                response.put("message", "Failed to update interim report, interim not found");
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            log.error("Error updating interim report", e);
-            throw new RuntimeException("Failed to update interim report", e);
         }
     }
 

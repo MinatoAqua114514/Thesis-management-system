@@ -1,5 +1,6 @@
 package com.uml.UserManage.dao;
 
+import com.uml.UserManage.entity.MentorStudent;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,7 +10,7 @@ public interface MentorMapper {
     void getMentorStudent(@Param("advisorId") Integer advisorId);
 
     // 获取学生及其指导老师
-    void getStudentMentor(@Param("studentId") Integer studentId);
+    MentorStudent getStudentMentor(@Param("studentId") Integer studentId);
 
     // 为指导老师分配学生
     void insertMentorStudent(Integer mentorId, Integer studentId);

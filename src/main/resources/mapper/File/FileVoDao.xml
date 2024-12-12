@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uml.FileManage.dao.FileVoMapper">
+
+    <resultMap type="com.uml.FileManage.vo.FileVo" id="FileVoMap">
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="fileType" column="file_type" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 获取文件列表 -->
+    <select id="getFileList" resultMap="FileVoMap">
+        SELECT
+            u.username,
+            f.file_type,
+            f.created_at,
+            f.updated_at
+        FROM
+            files f
+                JOIN
+            users u ON f.user_id = u.user_id
+        WHERE
+            f.deleted = 0;
+    </select>
+</mapper>

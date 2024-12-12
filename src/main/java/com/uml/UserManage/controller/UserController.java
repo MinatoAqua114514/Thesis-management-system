@@ -27,14 +27,12 @@ public class UserController {
 
     // 获取所有用户信息
     @GetMapping
-    @CheckPermission("admin")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
     // 获取指定用户的信息
     @GetMapping("{id}")
-    @CheckPermission("admin")
     public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
         // 获取用户信息，使用Optional包装，避免返回null
         Optional<User> user = userService.getUserById(id);
@@ -45,7 +43,6 @@ public class UserController {
 
     // 创建用户
     @PostMapping
-    @CheckPermission("admin")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         // 创建用户，使用Optional包装，避免返回null
         Optional<User> createdUser = userService.createUser(user);
@@ -56,7 +53,6 @@ public class UserController {
 
     // 更新指定用户信息
     @PutMapping("{id}")
-    @CheckPermission("admin")
     public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User user) {
         // 更新用户信息,使用Optional包装，避免返回null
         Optional<User> updatedUser = userService.updateUser(id, user);
@@ -67,7 +63,6 @@ public class UserController {
 
     // 删除指定用户
     @DeleteMapping("{id}")
-    @CheckPermission("admin")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Integer id) {
         if (userService.deleteUser(id)) {
             return ResponseEntity.ok().build();
@@ -78,7 +73,6 @@ public class UserController {
 
     // 解析Excel表，批量导入用户信息
     @PostMapping("/import")
-    @CheckPermission("admin")
     public ResponseEntity<String> importUsers(@RequestParam("file") MultipartFile file) {
         // 导入用户信息
         userService.importUsers(file);
@@ -88,7 +82,6 @@ public class UserController {
 
     // 获取所有用户信息，导出到Excel表格中
     @GetMapping("/export")
-    @CheckPermission("admin")
     public ResponseEntity<ByteArrayResource> exportUsers() {
         try {
             byte[] data = userService.exportUsers();

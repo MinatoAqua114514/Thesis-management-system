@@ -18,8 +18,8 @@ public interface InterimMapper {
     // 提交中期报告
     int submitInterim(Interim interim);
 
-    // 修改中期报告
-    int updateInterim(Interim interim);
+    // 重传中期报告
+    int updateInterim(Integer interimReportId, Integer interimReportFileId);
 
     // 删除中期报告
     int deleteInterim(@Param("interimReportId") int id);
