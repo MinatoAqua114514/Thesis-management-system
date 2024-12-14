@@ -1,7 +1,6 @@
 package com.uml.exception;
 
-import com.uml.FileManage.util.ApiResponse;
-import org.springframework.dao.DataAccessException;
+import com.uml.util.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,8 +11,6 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

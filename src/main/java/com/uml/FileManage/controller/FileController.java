@@ -2,8 +2,8 @@ package com.uml.FileManage.controller;
 
 import com.uml.FileManage.entity.File;
 import com.uml.FileManage.service.FileService;
-import com.uml.FileManage.util.ApiResponse;
-import com.uml.FileManage.util.FileUtil;
+import com.uml.util.ApiResponse;
+import com.uml.util.FileUtil;
 import com.uml.FileManage.vo.FileVo;
 import com.uml.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;

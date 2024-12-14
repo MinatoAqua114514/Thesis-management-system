@@ -1,4 +1,4 @@
-package com.uml.FileManage.util;
+package com.uml.util;
 
 import java.io.IOException;
 import java.nio.file.Files;
